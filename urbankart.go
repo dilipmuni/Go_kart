@@ -15,6 +15,38 @@ type Product struct {
 var slc []User
 var num_user int
 
+func asuser() {
+	for !add_user() {
+
+	}
+	fmt.Println("1.View products\n2.Place Order\n3.View Cart\n4.Change Order\n5.Cancel Order\n 0.Logout")
+	var choose int
+	choose = 1
+	for choose != 0 {
+		fmt.Scanln(&choose)
+		switch choose {
+		case 0:
+			return
+		case 1:
+			list_of_products()
+		case 2:
+			add_product()
+		case 3:
+			getorders()
+		case 4:
+			change_product()
+		case 5:
+			cancel_order()
+		default:
+			fmt.Println("Wrong Entry\n")
+		}
+	}
+}
+
+func asdeliveryrep() {
+
+}
+
 func add_user() bool {
 
 	fmt.Printf("Please enter your credentials\n")
@@ -52,10 +84,11 @@ func AddUsers(user User) bool {
 var all_Products [3]string = [3]string{"TV", "fridge", "Mobile"}
 
 func list_of_products() {
-	for k, v := range all_Products {
-		fmt.Printf("%d . %s\n", k, v)
+	fmt.Printf("\n")
+	for _, v := range all_Products {
+		fmt.Printf(" %s\n", v)
 	}
-	fmt.Printf("Enter 0 at anytime to come out\n")
+
 }
 
 type orders struct {
@@ -65,8 +98,11 @@ type orders struct {
 
 var my_orders []orders
 
-func add_product() bool {
+func cancel_order() {
+	my_orders = []orders{}
+}
 
+func add_product() bool {
 	var a string
 	fmt.Scanln(&a)
 
@@ -74,12 +110,6 @@ func add_product() bool {
 	var b int
 	fmt.Scanln(&b)
 
-	if a == "0" {
-		return false
-	}
-	if b == 0 {
-		return false
-	}
 	PlaceOrder(a, b)
 	fmt.Println(my_orders[:])
 	return true
@@ -100,9 +130,7 @@ func change_product() bool {
 	fmt.Printf("Quantity : ")
 	var b int
 	fmt.Scanln(&b)
-	if a == "0" {
-		return false
-	}
+
 	if b == 0 {
 		return false
 	}
@@ -112,12 +140,12 @@ func change_product() bool {
 }
 
 func ChangeOrders(name string, qty int) {
-	for k, v := range my_orders {
+	for _, v := range my_orders {
 		if v.name == name {
 			v.qty = qty
-			fmt.Println(k)
 		}
 	}
+
 }
 
 func getorders() {
@@ -126,16 +154,19 @@ func getorders() {
 
 func main() {
 
-	fmt.Printf("please Login\n")
-	for !add_user() {
+	var loginas int
 
+	for true {
+		fmt.Printf("Login As\n1.User\n2.Delivery Agent\n")
+		fmt.Scanln(&loginas)
+		switch loginas {
+		case 1:
+			asuser()
+		case 2:
+			asdeliveryrep()
+		default:
+			fmt.Println("Please login with proper credentials")
+		}
 	}
-	list_of_products()
-	fmt.Printf("please enter your product : ")
-	for add_product() {
-	}
-	for change_product() {
 
-	}
-	fmt.Println(my_orders[:])
 }
